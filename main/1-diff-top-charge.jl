@@ -36,7 +36,7 @@ Ss = Vector{Float64}(undef, 100000)
 Qs = Vector{Float64}(undef, 100000)
 Qs2 = Vector{Float64}(undef, 100000)
 
-for i in 1:10000
+for i in 1:100000
     @time sample!(model, samplerws, do_winding=true)
     Ss[i] = action(model)
     Qs[i] = LFTQuantumRotor.top_charge(model)
