@@ -17,7 +17,7 @@ auxtool = uQRTrivMap(C, psi)
 
 model = QuantumRotor(
                      Float64, 
-                     # aux = auxtool,
+                     aux = auxtool,
                      I = I, 
                      iT = iT, 
                      BC = PeriodicBC,
@@ -26,24 +26,24 @@ model = QuantumRotor(
 
 randomize!(model)
 
-smplr = HMC(integrator = Leapfrog(1.0, 60))
+smplr = HMC(integrator = Leapfrog(1.0, 70))
 samplerws = LFTSampling.sampler(model, smplr)
 
 
-Ss = Vector{Float64}(undef, 1000)
-Qs = Vector{Float64}(undef, 1000)
+Ss = Vector{Float64}(undef, 1000000)
+Qs = Vector{Float64}(undef, 1000000)
 
 @time sample!(model, samplerws, do_winding=false)
 
 
 LFTQuantumRotor.top_charge(model)
 
-for i in 1:1000
+for i in 1:1000000
     @time sample!(model, samplerws, do_winding=false)
     # Ss[i] = action(model)
     Ss[i] = action(model, LFTQuantumRotor.FallbackAuxField())
     Qs[i] = LFTQuantumRotor.top_charge(model)
-    print(Qs[i])
+    println(i)
 end
 
 
@@ -59,6 +59,8 @@ uwcos
 uwchi = uwreal(Qs.^2/iT, id)
 uwerr(uwchi)
 uwchi
+
+dtaui(uwchi, id)
 
 
 # Force test

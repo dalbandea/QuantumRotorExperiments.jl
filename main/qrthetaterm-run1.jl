@@ -9,16 +9,16 @@ using FormalSeries
 using BDIO
 
 I = 5.0
-iT = 500
+iT = 100
 
 model = QuantumRotor(
                      Float64, 
-                     Series{ComplexF64, 4},
+                     Series{Float64, 4},
                      I = I, 
                      iT = iT, 
-                     BC = OpenBC, 
+                     BC = PeriodicBC, 
                      disc = StAngleDifferenceDiscretization,
-                     theta = Series((0.0im, 1.0+0.0im, 0.0im, 0.0im))
+                     theta = Series((0.0, 1.0, 0.0, 0.0))
                     )
 
 randomize!(model)
@@ -42,7 +42,6 @@ for i in 1:1000000
         BDIO_close!(fb)
     end
 end
-
 
 
 fb2 = BDIO_open(fname, "r")
