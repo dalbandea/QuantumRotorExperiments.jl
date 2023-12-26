@@ -13,24 +13,35 @@ iT = 100
 
 model = QuantumRotor(
                      Float64, 
-                     Series{Float64, 4},
+                     Series{Float64, 3},
                      I = I, 
                      iT = iT, 
                      BC = PeriodicBC, 
                      disc = StAngleDifferenceDiscretization,
-                     theta = Series((0.0, 1.0, 0.0, 0.0))
+                     theta = Series((0.0, 1.0, 0.0))
                     )
 
 randomize!(model)
 
-smplr = HMC(integrator = Leapfrog(1.0, 1000))
+smplr = HMC(integrator = Leapfrog(1.0, 20))
 samplerws = LFTSampling.sampler(model, smplr)
 
 fname = "cfgs-run-I$I-T$iT.bdio"
 fb = BDIO_open(fname, "w","Quantum rotor")
 BDIO_close!(fb)
 
-@time sample!(model, samplerws)
+for i in 1:1000
+    @time sample!(model, samplerws)
+end
+
+for i in 1:100000
+    @time sample!(model, samplerws)
+    if any(isnan.(action(model).c))
+        println(i)
+        break
+    end
+end
+
 
 for i in 1:1000000
     @time begin
@@ -71,5 +82,4 @@ BDIO_seek!(fb2)
 BDIO_read(fb2, model2.phi)
 
 BDIO_close!(fb2)
-
 

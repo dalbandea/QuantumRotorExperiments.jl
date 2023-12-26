@@ -109,7 +109,7 @@ if isfile(fname)
 end
 
 # Thermalize
-for i in 1:1
+for i in 1:10000
     @time sample!(model, samplerws)
 end
 
