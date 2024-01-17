@@ -27,4 +27,8 @@ function LFTSampling.metropolis_accept_reject!(lftws::L, lftcp::L, dS::FormalSer
     # println(dS)
 end
 
+generate_pseudofermions!(qrws::QuantumRotor, hmcws::QuantumRotorHMC) = generate_pseudofermions!(qrws,hmcws,qrws.params.disc,qrws.params.BC,qrws.aux)
+function generate_pseudofermions!(qrws::QuantumRotor, hmcws::QuantumRotorHMC, disc::Type{D}, BC::Type{B}, aux::AUX) where {D <: LFTQuantumRotor.AbstractDiscretization, B <: LFTQuantumRotor.AbstractBoundaryCondition, AUX <: AbstractAuxFields} end
+
+
 end # module QuantumRotorExperiments
