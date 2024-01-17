@@ -32,3 +32,6 @@ function BDIO.BDIO_read(fb::BDIO.BDIOstream, vec::Vector{FormalSeries.Series{T,N
     end
 end
 
+function read_ensemble(fname::String, LFT::Type{QuantumRotor}, n::Int64 = 0)
+    return LFTSampling.read_ensemble(fname, LFT, n; modul = QuantumRotorExperiments)
+end
