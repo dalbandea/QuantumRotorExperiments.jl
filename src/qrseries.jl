@@ -1,6 +1,9 @@
 import FormalSeries: Series
 import Base: mod
 import LFTQuantumRotor: QuantumRotor, Mod
+import Base: zero
+import Base: broadcastable
+import FormalSeries: genseries
 
 function restart_derivatives(s::FormalSeries.Series{T,N}) where {T, N}
     return FormalSeries.Series{T, N}(ntuple(i -> i == 1 ? s[1] : zero(T), N))
@@ -26,3 +29,8 @@ function mod(z::T, alpha) where T <: Complex
 end
 
 
+Base.:+(s1::FormalSeries.Series{uwreal,N}, s2::uwreal)      where {N} = genseries(FormalSeries.Series{uwreal,N}, i -> i == 1 ? s1.c[1] + s2 : s1.c[i])
+
+Base.zero(::Type{uwreal}) = uwreal([0.0, 0.0], "noerror")
+
+broadcastable(x::FormalSeries.Series) = Ref(x)
