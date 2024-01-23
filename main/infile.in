@@ -1,0 +1,19 @@
+["Model params"]
+I = 5.0
+T = 100
+BC = 'PeriodicBC'
+disc = 'StandardDiscretization'
+theta = 'FormalSeries.Series((0.0, 1.0, 0.0))'
+# theta = '0.0'
+
+["HMC params"]
+integrator = 'OMF4'
+tau = 1.0
+nsteps = 15
+ntherm = 100
+ntraj = 1000
+discard = 10
+windings = false
+
+["Working directory"]
+wdir = "trash"
