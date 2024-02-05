@@ -6,9 +6,6 @@ using LFTQuantumRotor
 using LFTSampling
 using QuantumRotorExperiments
 import FormalSeries
-using BDIO
-using ProgressBars
-using Statistics
 using Plots
 import ADerrors
 import ADerrors: uwreal, uwerr

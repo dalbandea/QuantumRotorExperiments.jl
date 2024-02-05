@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0"
 manifest_format = "2.0"
-project_hash = "2297923cd6f7753962373735514abcbb65808676"
+project_hash = "bb29fdeca23e6ac1b4df80eef27ee8f8a0470513"
 
 [[deps.ADerrors]]
 deps = ["BDIO", "FFTW", "FastGaussQuadrature", "ForwardDiff", "LaTeXStrings", "LinearAlgebra", "Nettle", "PGFPlotsX", "Plots", "Printf", "QuadGK", "Roots", "Statistics", "Test", "UnicodePlots"]
