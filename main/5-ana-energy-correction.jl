@@ -124,7 +124,7 @@ plot!(pl, xs, ADerrors.value.(ys), yerr=ADerrors.err.(ys), seriestype=:scatter)
 plot!(pl, x -> -1/2 * (1/(2*f.I))^2 * 1/pi^2 * x^2, 0, 30, label="Analytic", lw=2)
 plot!(pl, title="cse=$(round(cse, sigdigits=2)),cs=$(round(cs, sigdigits=2))")
 
-savefig(pl, joinpath(dname,fdname)*"-fit.pdf")
+savefig(pl, joinpath(dname,fdname)*"-fit-t$tmin.pdf")
 
 
 # Mass order 1
@@ -151,8 +151,8 @@ uwchi
 
 # Dump to file
 
-anafile = joinpath(dname,fdname)*"-ana.csv"
-logfile = joinpath(dname,fdname)*"-log.log"
+anafile = joinpath(dname,fdname)*"-ana-t$tmin.csv"
+logfile = joinpath(dname,fdname)*"-log-t$tmin.log"
 
 qwrite(anafile, [iT, I, uwchi, E0, E1, uws])
 
