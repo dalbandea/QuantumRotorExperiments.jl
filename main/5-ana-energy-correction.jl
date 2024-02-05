@@ -7,9 +7,15 @@ using LFTSampling
 using QuantumRotorExperiments
 import FormalSeries
 using Plots
+using Statistics
 import ADerrors
 import ADerrors: uwreal, uwerr
 using Utils
+
+# File parameters
+
+tmin = 5
+
 
 # Function definitions
 
@@ -110,7 +116,7 @@ uwerr.(ys)
 
 xs = collect(0:29)
 
-fitp, cse, cs = fit_data(f, xs, ys, [1.0, 0.0, 0.0])
+fitp, cse, cs = fit_data(f, xs[tmin:end], ys[tmin:end], [1.0, 0.0, 0.0])
 uwerr.(fitp)
 
 pl = plot_fit(xs, ys, f, fitp)
