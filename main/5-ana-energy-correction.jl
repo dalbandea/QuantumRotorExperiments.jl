@@ -57,6 +57,7 @@ function main()
     # File parameters
     tmin = 5
     tmax = 45
+    tminmax = 28
 
 
     length(ARGS) == 1 || error("Only one argument is expected! (Path to input file)")
@@ -66,7 +67,7 @@ function main()
     dname = dirname(fname)
     fdname = basename(dname)
 
-    ens = QuantumRotorExperiments.read_ensemble(fname, QuantumRotor)
+    ens = QuantumRotorExperiments.read_ensemble(fname, QuantumRotor, 20000)
 
     iT = ens[1].params.iT
     I = ens[1].params.I
@@ -99,8 +100,8 @@ function main()
 
     tag = "test"
 
-    y = Vector{FormalSeries.Series{uwreal,3}}(undef, 30)
-    for i in 1:30
+    y = Vector{FormalSeries.Series{uwreal,3}}(undef, tmax)
+    for i in 1:tmax
         y[i] = uwreal(Ct[:,i], tag)
     end
 
@@ -116,18 +117,18 @@ function main()
     ys = y2 ./ y0
     uwerr.(ys)
 
-    xs = collect(0:29)
+    xs = collect(0:tmax-1)
 
     fitps = []
 
-    for i in 1:20
+    for i in 1:tminmax
         fitp, cse, cs = fit_data(f, xs[i:end], ys[i:end], [1.0, 0.0, 0.0])
         uwerr.(fitp)
         push!(fitps, fitp)
         if i == tmin
             pl = plot_fit(xs, ys, f, fitp)
             plot!(pl, xs, ADerrors.value.(ys), yerr=ADerrors.err.(ys), seriestype=:scatter)
-            plot!(pl, x -> -1/2 * (1/(2*f.I))^2 * 1/pi^2 * x^2, 0, 30, label="Analytic", lw=2)
+            plot!(pl, x -> -1/2 * (1/(2*f.I))^2 * 1/pi^2 * x^2, 0, tmax, label="Analytic", lw=2)
             plot!(pl, title="cse=$(round(cse, sigdigits=2)),cs=$(round(cs, sigdigits=2))")
             savefig(pl, joinpath(dname,fdname)*"-fit-t$tmin.pdf")
         end
